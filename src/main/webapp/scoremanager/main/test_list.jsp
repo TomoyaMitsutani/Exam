@@ -13,6 +13,7 @@
 		<section class="me-4">
 			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">成績参照</h2>
 			
+			<%-- 科目検索フォーム --%>
 			<form action="TestListSubjectExecute.action" method="get">
 				<div class="row border mx-3 mb-3 py-2 align-items-center rounded" id="filter">
 				
@@ -56,17 +57,35 @@
 				</div>
 			</form>
 			
+			<%-- 学生番号検索フォーム --%>
+			<form action="TestListStudentExecute.action" method="get" method="get">
+				<div class="row border mx-3 mb-3 py-2 align-items-center rounded" id="filter">
+				
+					<div class="col-4">
+						<label class="form-label" for="student-f4-input">学生番号</label>
+						<input type="text" class="form-control" id="student-f1-input" name="f4" value="${f4}">
+					</div>
+					
+					<div class="col-2 text-center">
+						<button type="submit" class="btn btn-secondary" id="filter-button">検索</button>
+					</div>
+					<div class="mt-2 text-warning">${errors.get("f1")}</div>
+					
+				</div>
+			</form>
+			
 			<c:choose>
 			
-				<%-- 1. 初期表示：リストが null の場合 --%>
-		       <c:when test="${testList == null}">
-		           <div class="text-info">
-		               科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
-		           </div>
-		       </c:when>
-			
-				<c:when test="${testList.size()>0}">
-				<div>検索結果：${testList.size()}件</div>
+				<%-- 初期表示：リストが null の場合 --%>
+				<c:when test="${testListSubject == null && testListStudent == null}">
+					<div class="text-info">
+					    科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
+					</div>
+				</c:when>
+	
+				<%-- 科目検索結果のリストがある場合 --%>
+				<c:when test="${testListSubject.size()>0}">
+				<div>検索結果：${testListSubject.size()}件</div>
 					<table class="table table-hover">
 						<tr>
 							<th>入学年度</th>
@@ -76,7 +95,7 @@
 							<th>１回</th>
 							<th>２回</th>
 						</tr>
-						<c:forEach var="test" items="${testList}">
+						<c:forEach var="test" items="${testListSubject}">
 							<tr>
 								<td>${test.entYear}</td>
 								<td>${test.classNum}</td>
@@ -87,11 +106,34 @@
 							</tr>
 						</c:forEach>
 					</table>
-					
 				</c:when>
+								
+				<%-- 学生番号検索結果のリストがある場合 --%>
+				<c:when test="${testListStudent.size() > 0}">
+					<div>検索結果：${testListStudent.size()}件</div>
+					<table class="table table-hover">
+						<tr>
+							<th>科目名</th>
+							<th>科目コード</th>
+							<th>回数</th>
+							<th>点数</th>
+						</tr>
+						<c:forEach var="test" items="${testListStudent}">
+							<tr>
+								<td>${test.subjectName}</td>
+								<td>${test.subjectCd}</td>
+								<td>${test.num}</td>
+								<td>${test.point}</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</c:when>
+				
+				<%-- 検索結果が存在しなかった場合 --%>
 				<c:otherwise>
 					<div>学生情報が存在しませんでした</div>
 				</c:otherwise>
+			
 			</c:choose>
 		
 		</section>

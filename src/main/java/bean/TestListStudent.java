@@ -13,11 +13,9 @@ public class TestListStudent implements Serializable {
     private int num;            // 回数
     private int point;          // 得点
 
-
-
     // --- ゲッター / セッター ---
 
-    public String getSubjctName() { // 図の綴り（Subjct）に合わせています
+    public String getSubjectName() {
         return subjectName;
     }
 

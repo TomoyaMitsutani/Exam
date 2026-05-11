@@ -33,36 +33,35 @@ public class TestListSubjectExecuteAction extends Action{
 		
 		// Subject subject = new Subject();
 		
-		List<TestListSubject> testList = null;
+		List<TestListSubject> testListSubject = null;
 		
 		TestListSubjectDao dao = new TestListSubjectDao();
 
 		// 検索
-		testList = dao.filter(entYear, classNum, subjectStr, teacher.getSchool());		
-	    req.setAttribute("testList", testList);
+		testListSubject = dao.filter(entYear, classNum, subjectStr, teacher.getSchool());
 
-		// フォームリスト再送
-	    
-		//クラス一覧
+		// 検索結果をJSPへ送る
+	    req.setAttribute("testListSubject", testListSubject);
+		
+		// クラス一覧
 		ClassNumDao cNumDao = new ClassNumDao();
 		List<String> classList = cNumDao.filter(teacher.getSchool());
 		
-		//入学年度
+		// 入学年度
 		int currentYear = LocalDate.now().getYear();
 		List<Integer>yearList = new ArrayList<>();
 		for (int i = currentYear - 10; i <= currentYear + 10; i++) {
 			yearList.add(i);
 		}
 		
-		//科目
+		// 科目
 		SubjectDao subjectDao = new SubjectDao();
 		List<Subject> subjectList = subjectDao.filter(teacher.getSchool());
-	    
+		
+	    // 入力値保持
 		req.setAttribute("class_num_set", classList);
 	    req.setAttribute("ent_year_set", yearList);
 	    req.setAttribute("subject_set", subjectList);
-	    
-	    // 入力保持
 		req.setAttribute("f1", entYearStr);
 	    req.setAttribute("f2", classNum);
 	    req.setAttribute("f3", subjectStr);
