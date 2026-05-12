@@ -21,27 +21,32 @@
                 <br>
                 <input type="text" class="form-control" id="subject-cd-input"
                     name="cd" value="${param.cd}" placeholder="科目コードを入力してください" maxlength="10" required>
-
-                <c:if test="${errors.cd != null}">
-                    <div class="mt-2">
-                        <span style="color:orange;">${errors.cd}</span>
+				
+				<!-- 科目コード重複エラー表示 -->
+                <c:if test="${errors.subject_cd_duplicate != null}">
+                    <div class="mt-2 text-warning">
+                        ${errors.subject_cd_duplicate}
                     </div>
                 </c:if>
-            </div>
-
-            <!-- 科目名 -->
-            <div class="col-12 mb-3">
-                <label class="form-label" for="subject-name-input">科目名</label>
-                <br>
-                <input type="text" class="form-control" id="subject-name-input"
-                    name="name" value="${param.name}" placeholder="科目名を入力してください" maxlength="30" required>
-
-                <c:if test="${errors.name != null}">
-                    <div class="mt-2">
-                        <span style="color:orange;">${errors.name}</span>
+            
+	            <!-- 科目コード文字数超過エラー表示 -->
+                <c:if test="${errors.subject_cd_lengthover != null}">
+                    <div class="mt-2 text-warning">
+                    	${errors.subject_cd_lengthover}
                     </div>
                 </c:if>
+            
             </div>
+
+			<!-- 科目名 -->
+			<div class="col-12 mb-3">
+				<label class="form-label" for="subject-name-input">科目名</label>
+				<br>
+				<input type="text" class="form-control" id="subject-name-input"
+					name="name" value="${param.name}"
+					placeholder="科目名を入力してください"
+					maxlength="20" required>
+			</div>
 
             <!-- 送信ボタン -->
             <div class="mb-1">

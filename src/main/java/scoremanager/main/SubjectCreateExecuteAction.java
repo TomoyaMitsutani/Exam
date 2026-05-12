@@ -19,7 +19,7 @@ public class SubjectCreateExecuteAction extends Action {
         Teacher teacher = (Teacher) session.getAttribute("user");
         School school = teacher.getSchool();
 
-        // リクエストパラメータの取得 2
+        // リクエストパラメータの取得
         String cd = req.getParameter("cd");
         String name = req.getParameter("name");
 
@@ -29,19 +29,15 @@ public class SubjectCreateExecuteAction extends Action {
         SubjectDao subjectDao = new SubjectDao();
         Subject subject_check = subjectDao.get(cd, school);
         if (subject_check != null) {
-            errors.put("cd", "科目コードが重複しています");
+            errors.put("subject_cd_duplicate", "科目コードが重複しています");
+        }
+        
+        // 科目コード文字数チェック
+        if (cd.length() != 3) {
+        	errors.put("subject_cd_lengthover", "科目コードは3文字で入力してください");
         }
 
-        // 科目コード未入力チェック
-        if (cd == null || cd.isEmpty()) {
-            errors.put("cd", "科目コードを入力してください");
-        }
-
-        // 科目名未入力チェック
-        if (name == null || name.isEmpty()) {
-            errors.put("name", "科目名を入力してください");
-        }
-
+        // エラー発生時の差し返し
         if (!errors.isEmpty()) {
             req.setAttribute("errors", errors);
             req.getRequestDispatcher("subject_create.jsp").forward(req, res);

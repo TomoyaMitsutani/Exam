@@ -19,14 +19,25 @@
             <!-- 科目コード（変更不可） -->
             <div class="mb-2">
                 <label>科目コード</label>
-                <input type="text" class="form-control border-0 bg-transparent" name="cd" value="${subject.cd}" readonly>
+                <input type="text" class="form-control border-0 bg-transparent" value="${not empty cd ? cd : subject.cd}" readonly>
             </div>
+			
+			<!-- 科目コード：データ送信用 -->
+			<input type="hidden" name="cd" value="${not empty cd ? cd : subject.cd}">
+            
+			<!-- 科目コード文字数超過エラー表示 -->
+			<c:if test="${errors.subject_not_found != null}">
+				<div class="mt-2 text-warning">
+					${errors.subject_not_found}
+				</div>
+				<br>
+			</c:if>
 
             <!-- 科目名 -->
             <div class="mb-3">
                 <label>科目名</label>
-                <input class="form-control" type="text" name="name"
-                       value="${subject.name}" maxlength="30" required>
+				<input class="form-control" type="text" name="name" value="${not empty name ? name : subject.name}"
+					maxlength="20" required>
             </div>
 
             <!-- 送信ボタン -->

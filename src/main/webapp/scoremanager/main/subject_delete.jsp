@@ -16,27 +16,20 @@
 
         <form action="SubjectDeleteExecute.action" method="post">
 
-            <!-- 科目コード（変更不可） -->
-            <div class="mb-2">
-                <label>科目コード</label>
-                <input type="text" class="form-control border-0 bg-transparent" name="cd" value="${subject.cd}" readonly>
-            </div>
-
-            <!-- 科目名（変更不可） -->
-            <div class="mb-3">
-                <label>科目名</label>
-                <input type="text" class="form-control border-0 bg-transparent" name="name" value="${subject.name}" readonly>
-            </div>
-
+			<span>「${subject.name}」を削除してもよろしいですか</span>
+			
+            <!-- 科目コード：データ送信用 -->
+			<input type="hidden" name="cd" value="${subject.cd}">
+            
             <!-- 送信ボタン -->
-            <div class="mb-1">
+            <div class="mt-3">
                 <button type="submit" class="btn btn-danger">削除</button>
             </div>
 
         </form>
 
-        <div class="my-2">
-            <a href="SubjectList.action">戻る</a>
+        <div class="my-3">
+            <a href="SubjectL.action">戻る</a>
         </div>
 
     </c:param>

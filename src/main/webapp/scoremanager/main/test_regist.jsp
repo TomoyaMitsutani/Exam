@@ -18,7 +18,7 @@
 			
 			<form method="get">
 			
-				<div class="row border mx-3 mb-3 py-2 align-items-end rounded g-3" id="filter">
+				<div class="row border mx-3 px-2 mb-3 py-3 align-items-end rounded gx-3 gy-1" id="filter">
 
 					<!-- 入学年度 -->
 					<div class="col-2">
@@ -78,17 +78,15 @@
 					</div>					
 					
 					<c:if test="${errors.search != null}">
-						<div class="mt-2">
-				    		<span style="color:orange;">
-								${errors.search}
-							</span>
+						<div class="mt-2 text-warning mt-4">
+							${errors.search}
 						</div>
 					</c:if>					
-				
 				</div>
-			
+				
 			</form>
-		
+			
+			<!-- 検索結果 -->
 			<c:if test="${not empty testList}">
 
 				<div>科目：${testList[0].subject.name}（${num}回）</div>

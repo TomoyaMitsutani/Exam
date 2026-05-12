@@ -17,10 +17,10 @@
             <p class="text-center py-1" style="background-color:#8CC3A9">登録が完了しました</p>
         </div>
 
-        <div style="margin-top: 140px; margin-left: 20px;">
-            <a href="SubjectList.action">戻る</a>
-            <a href="SubjectList.action">科目一覧</a>
-        </div>
+		<div class="d-flex gap-4" style="margin-top: 140px; margin-left: 20px;">
+			<a href="SubjectList.action">戻る</a>
+			<a href="SubjectList.action">科目一覧</a>
+		</div>
 
     </c:param>
 
