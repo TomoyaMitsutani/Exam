@@ -102,7 +102,7 @@
 						<!-- 学生番号 -->
 						<div class="col-4">
 							<label class="form-label mb-1" for="student-f4-input">学生番号</label>
-							<input type="text" class="form-control" id="student-f4-input" name="f4" value="${f4}">
+							<input type="text" class="form-control" id="student-f4-input" name="f4" value="${f4}" required>
 						</div>
 			
 						<!-- ボタン -->
