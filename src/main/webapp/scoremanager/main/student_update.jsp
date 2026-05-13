@@ -36,7 +36,7 @@
 		    <div class="mb-3">
 		        <label>氏名</label>
 		        <input class="form-control" type="text" name="name"
-		               value="${student.name}" maxlength="30" required>
+		               value="${student.name}" maxlength="10" required>
 		    </div>
 		
 		    <!-- クラス番号 -->

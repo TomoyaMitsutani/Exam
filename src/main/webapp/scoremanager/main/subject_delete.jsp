@@ -16,7 +16,7 @@
 
         <form action="SubjectDeleteExecute.action" method="post">
 
-			<span>「${subject.name}」を削除してもよろしいですか</span>
+			<span>「${subject.name}(${subject.cd})」を削除してもよろしいですか</span>			
 			
             <!-- 科目コード：データ送信用 -->
 			<input type="hidden" name="cd" value="${subject.cd}">
@@ -29,7 +29,7 @@
         </form>
 
         <div class="my-3">
-            <a href="SubjectL.action">戻る</a>
+            <a href="SubjectList.action">戻る</a>
         </div>
 
     </c:param>

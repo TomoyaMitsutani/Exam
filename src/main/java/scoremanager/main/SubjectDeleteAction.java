@@ -11,6 +11,8 @@ import tool.Action;
 public class SubjectDeleteAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    	
+    	// セッション
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
 
