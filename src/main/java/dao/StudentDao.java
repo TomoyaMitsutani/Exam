@@ -353,6 +353,33 @@ public class StudentDao extends Dao {
 	        if (con != null) con.close();
 	    }
 	    return false;
-	}
+	}	
+	
+//削除
+
+	public void delete(Student student,School school) throws Exception {
+	
+	    Connection con = getConnection();
+	    PreparedStatement st = null;
+	    
+	    boolean exists = (get(student.getNo()) != null);
+	    
+	    try {
+	        if (exists) {
+	        	
+	            st = con.prepareStatement(
+	            		
+	            "DELETE FROM student WHERE no = ? AND school_cd = ?");
+		            st.setString(1, student.getNo());
+		            st.setString(2, student.getSchool().getCd());
+		            
+		            st.executeUpdate();
+		        }
+	
+		    } finally {
+		        if (st != null) st.close();
+		        if (con != null) con.close();
+		    }
+	  }	
 	
 }
