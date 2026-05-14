@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.School;
 import bean.Subject;
 import bean.Teacher;
 import dao.ClassNumDao;
@@ -21,9 +20,6 @@ public class TestListAction extends Action{
 		//ユーザーデータを取得
 		HttpSession session = req.getSession(); // セッション
 		Teacher teacher = (Teacher)session.getAttribute("user");
-		
-		//ユーザーの学校取得
-		School school = teacher.getSchool();
 		
 		//クラス一覧
 		ClassNumDao cNumDao = new ClassNumDao();
