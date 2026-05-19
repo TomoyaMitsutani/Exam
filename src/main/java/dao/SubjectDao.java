@@ -11,9 +11,7 @@ import bean.Subject;
 
 public class SubjectDao extends Dao {
 	
-	// ─────────────────────────────────────────────
     // 1件取得
-    // ─────────────────────────────────────────────
 	public Subject get(String cd, School school) throws Exception {
 		
 		Subject subject = null;
@@ -41,10 +39,8 @@ public class SubjectDao extends Dao {
 		return subject;
 		
 	}
-	
-	// ─────────────────────────────────────────────
-    // 登録・更新（upsert）
-    // ─────────────────────────────────────────────
+
+    // 登録・更新
 	public void save(Subject subject) throws Exception {
 		
 		Connection con = getConnection();
@@ -72,9 +68,7 @@ public class SubjectDao extends Dao {
 		}
 	}
 	
-	// ─────────────────────────────────────────────
-    // 絞り込み（filter）
-    // ─────────────────────────────────────────────
+    // 絞り込み
 	public List<Subject> filter(School school) throws Exception {
 		
 		List<Subject> list = new ArrayList<>();
@@ -102,9 +96,7 @@ public class SubjectDao extends Dao {
 		return list;
 	}
 
-	// ─────────────────────────────────────────────
     // 削除
-    // ─────────────────────────────────────────────
 	public void delete(Subject subject) throws Exception {
 
 	    Connection con = getConnection();

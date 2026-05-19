@@ -135,16 +135,18 @@ public class TestDao extends Dao {
 			else {
 
 				String insertSql =
-					"insert into test (student_no, subject_cd, school_cd, no, point) " +
-					"values (?, ?, ?, ?, ?)";
+					"insert into test " +
+					"(student_no, subject_cd, school_cd, class_num, no, point) " +
+					"values (?, ?, ?, ?, ?, ?)";
 
 				statement = connection.prepareStatement(insertSql);
 
 				statement.setString(1, test.getStudent().getNo());
 				statement.setString(2, test.getSubject().getCd());
 				statement.setString(3, test.getSchool().getCd());
-				statement.setInt(4, test.getNo());
-				statement.setInt(5, test.getPoint());
+				statement.setString(4, test.getClassNum());
+				statement.setInt(5, test.getNo());
+				statement.setInt(6, test.getPoint());
 
 				statement.executeUpdate();
 			}
@@ -155,6 +157,87 @@ public class TestDao extends Dao {
 			if (statement != null) statement.close();
 			if (connection != null) connection.close();
 		}
+	}
+	
+	public void delete(String studentNo, String subjectCd, int num) throws Exception {
+
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+
+		try {
+
+			statement = connection.prepareStatement(
+				"delete from test "
+				+ "where student_no = ? "
+				+ "and subject_cd = ? "
+				+ "and no = ?"
+			);
+
+			statement.setString(1, studentNo);
+			statement.setString(2, subjectCd);
+			statement.setInt(3, num);
+
+			statement.executeUpdate();
+
+		} finally {
+
+			if (statement != null) {
+				statement.close();
+			}
+
+			if (connection != null) {
+				connection.close();
+			}
+		}
+	}
+	
+	public Test get(String studentNo, String subjectCd, int num, School school) throws Exception {
+
+		Test test = null;
+
+		Connection con = getConnection();
+		PreparedStatement st = null;
+
+		try {
+
+			String sql =
+				"SELECT * FROM test WHERE student_no = ? AND subject_cd = ? AND no = ?";
+
+			st = con.prepareStatement(sql);
+
+			st.setString(1, studentNo);
+			st.setString(2, subjectCd);
+			st.setInt(3, num);
+
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+
+				test = new Test();
+
+				// Student取得
+				StudentDao studentDao = new StudentDao();
+				test.setStudent(studentDao.get(studentNo));
+
+				// Subject取得
+				SubjectDao subjectDao = new SubjectDao();
+				test.setSubject(subjectDao.get(subjectCd, school));
+
+				// その他
+				test.setNo(rs.getInt("no"));
+				test.setPoint(rs.getInt("point"));
+				test.setClassNum(rs.getString("class_num"));
+
+			}
+
+		} finally {
+
+			if (st != null) st.close();
+			if (con != null) con.close();
+
+		}
+
+		return test;
 	}
 
 }

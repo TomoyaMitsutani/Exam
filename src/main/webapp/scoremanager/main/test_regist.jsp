@@ -14,9 +14,14 @@
 		
 		<section class="me-4">
 		
-			<h2 class="h3 mb-4 bg-secondary bg-opacity-10 py-2 px-4">成績管理</h2>
+			<h2 class="h3 mb-4 bg-secondary bg-opacity-10 py-2 px-4">成績登録</h2>
 			
-			<form method="get">
+			<div class="text-end px-4 my-2">
+				<a href="TestCreate.action">新規登録</a>
+			</div>
+			
+			<!-- 検索フォーム -->
+			<form action="TestRegist.action" method="get">
 			
 				<div class="row border mx-3 px-2 mb-3 py-3 align-items-end rounded gx-3 gy-1" id="filter">
 
@@ -86,6 +91,20 @@
 				
 			</form>
 			
+			<!-- TestDeleteExecuteActionもしくはTestCreateExecuteActionから飛んできた場合のメッセージ表示 -->
+			<c:if test="${message_dlt != null}">
+				<div class="text-success mt-3">
+					${message_dlt}
+				</div>
+			</c:if>
+			
+			<!-- TestDeleteExecuteActionもしくはTestCreateExecuteActionから飛んできた場合のメッセージ表示 -->
+			<c:if test="${message_crt != null}">
+				<div class="text-success mt-3">
+					${message_crt}
+				</div>
+			</c:if>
+			
 			<!-- 検索結果 -->
 			<c:if test="${not empty testList}">
 
@@ -100,6 +119,7 @@
 							<th>学生番号</th>
 							<th>氏名</th>
 							<th>点数</th>
+							<th></th>
 						</tr>
 			
 					<c:forEach var="test" items="${testList}" varStatus="st">
@@ -115,6 +135,7 @@
 									   name="studentNo"
 									   value="${test.student.no}">
 					
+								<%-- 点数入力 --%>
 								<input type="number"
 									   name="point"
 									   value="${test.point}">
@@ -123,10 +144,15 @@
 									<div style="color:orange;">
 										${pointErrors[st.index]}
 									</div>
-								</c:if>
-								
-								
+								</c:if>	
 							</td>
+						
+							<td>
+								<button type="submit" class="btn btn-danger btn-sm" formaction="TestDelete.action"
+										 name="deleteStudentNo" value="${test.student.no}">
+									削除
+								</button>
+							</td>	
 						</tr>
 					
 					</c:forEach>
@@ -134,11 +160,11 @@
 					</table>
 			
 					<!-- 検索条件も送る -->
-					<input type="hidden" name="entYear" value="${entYear}">
-					<input type="hidden" name="classNum" value="${classNum}">
 					<input type="hidden" name="subjectCd" value="${subjectCd}">
 					<input type="hidden" name="num" value="${num}">
-			
+					<input type="hidden" name="entYear" value="${entYear}">
+					<input type="hidden" name="classNum" value="${classNum}">
+						
 					<div class="mt-4">
 						<button class="btn btn-secondary">登録して終了</button>
 					</div>

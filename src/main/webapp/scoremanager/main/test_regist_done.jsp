@@ -14,7 +14,7 @@
 	
 		<!-- 登録完了画面 -->
 	
-		<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">成績管理</h2>
+		<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">成績登録</h2>
 		
 		<div id="wrap_box">
 			<p class="text-center py-1" style="background-color:#8CC3A9">登録が完了しました</p>

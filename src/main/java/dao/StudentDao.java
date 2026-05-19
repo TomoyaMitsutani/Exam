@@ -354,9 +354,8 @@ public class StudentDao extends Dao {
 	    }
 	    return false;
 	}	
-	
-//削除
 
+	//削除
 	public void delete(Student student,School school) throws Exception {
 	
 	    Connection con = getConnection();
