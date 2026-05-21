@@ -36,7 +36,7 @@ public class TestRegistAction extends Action {
 		ClassNumDao cNumDao = new ClassNumDao();
 		List<String> classList = cNumDao.filter(teacher.getSchool());
 		
-		// 入学年度リスト作成
+		// 入学年度リスト取得
 		int currentYear = LocalDate.now().getYear();
 		List<Integer> yearList = new ArrayList<>();
 		for (int i = currentYear - 10; i <= currentYear + 10; i++) {
