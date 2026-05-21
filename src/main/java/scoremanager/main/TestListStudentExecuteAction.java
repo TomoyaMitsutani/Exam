@@ -22,49 +22,31 @@ public class TestListStudentExecuteAction extends Action {
 
 		// セッション取得
 		HttpSession session = req.getSession();
-
 		Teacher teacher = (Teacher)session.getAttribute("user");
 
-		// フォーム値取得
+		// パラメータ取得
 		String studentNo = req.getParameter("f4");
 
-		// DAO検索
+		// 検索処理
 		TestListStudentDao dao = new TestListStudentDao();
-
-		List<TestListStudent> testListStudent = dao.filter(studentNo, teacher.getSchool());
-
-		for (TestListStudent test : testListStudent) {
-
-			System.out.println(test.getSubjectName());
-
-			System.out.println(test.getSubjectCd());
-
-			System.out.println(test.getNum());
-
-			System.out.println(test.getPoint());
-		}
-		
+		List<TestListStudent> testListStudent = dao.filter(studentNo, teacher.getSchool());		
 		
 		// 検索結果をJSPへ送る
 		req.setAttribute("testListStudent", testListStudent);
 
 		// クラス一覧
 		ClassNumDao cNumDao = new ClassNumDao();
-
 		List<String> classList = cNumDao.filter(teacher.getSchool());
 
 		// 入学年度一覧
 		int currentYear = LocalDate.now().getYear();
-
 		List<Integer> yearList = new ArrayList<>();
-
 		for (int i = currentYear - 10; i <= currentYear + 10; i++) {
 			yearList.add(i);
 		}
 
 		// 科目一覧
 		SubjectDao subjectDao = new SubjectDao();
-
 		List<Subject> subjectList = subjectDao.filter(teacher.getSchool());
 
 		// JSPへ送る
@@ -75,7 +57,7 @@ public class TestListStudentExecuteAction extends Action {
 		// 入力値保持
 		req.setAttribute("f4", studentNo);
 		
-		// JSP表示
+		// フォワード
 		req.getRequestDispatcher("test_list.jsp").forward(req, res);
 	}
 }

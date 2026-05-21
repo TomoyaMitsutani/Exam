@@ -12,7 +12,9 @@ public class TestDeleteAction extends Action {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		HttpSession session = req.getSession(); // セッション
+		
+		// セッション取得
+		HttpSession session = req.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		
 		// パラメータ取得
@@ -20,16 +22,14 @@ public class TestDeleteAction extends Action {
 		String subjectCd = req.getParameter("subjectCd");
 		int num = Integer.parseInt(req.getParameter("num"));
 
-		// DAO
+		// 削除対象取得
 		TestDao dao = new TestDao();
-
-		// 対象取得
 		Test test = dao.get(studentNo, subjectCd, num, teacher.getSchool());
 
 		// JSPへ渡す
 		req.setAttribute("test", test);
 
-		// 確認画面
+		// フォワード
 		req.getRequestDispatcher("test_delete.jsp").forward(req, res);
 	}
 }

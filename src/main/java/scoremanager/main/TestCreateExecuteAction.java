@@ -37,11 +37,10 @@ public class TestCreateExecuteAction extends Action {
 		String subjectCd = req.getParameter("subjectCd");
 		String numStr = req.getParameter("num");
 		String pointStr = req.getParameter("point");
-		
 
 		Map<String, String> errors = new HashMap<>();
 		
-		// 必須チェック
+		// 入力必須チェック（どこか１箇所でも未入力ならTrue）
 		if (
 			studentNo == null || studentNo.isEmpty() ||
 			subjectCd == null || subjectCd.isEmpty() ||
@@ -54,25 +53,23 @@ public class TestCreateExecuteAction extends Action {
 			StudentDao studentDao = new StudentDao();
 			SubjectDao subjectDao = new SubjectDao();
 
-			List<Student> studentList =
-				studentDao.filter(teacher.getSchool(), true);
-
-			List<Subject> subjectList =
-				subjectDao.filter(teacher.getSchool());
-
+			// フォーム情報再セット
+			List<Student> studentList = studentDao.filter(teacher.getSchool(), true);
+			List<Subject> subjectList = subjectDao.filter(teacher.getSchool());
 			req.setAttribute("student_list", studentList);
 			req.setAttribute("subject_list", subjectList);
 
+			// 入力値保持
 			req.setAttribute("studentNo", studentNo);
 			req.setAttribute("subjectCd", subjectCd);
 			req.setAttribute("num", numStr);
 			req.setAttribute("point", pointStr);
 
+			// エラー文セット
 			req.setAttribute("errors", errors);
 
-			req.getRequestDispatcher("test_create.jsp")
-				.forward(req, res);
-
+			// フォワード（差し戻し）
+			req.getRequestDispatcher("test_create.jsp").forward(req, res);
 			return;
 		}
 		

@@ -22,9 +22,11 @@ public class TestRegistAction extends Action {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		
+		// セッション
 		HttpSession session = req.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		
+		// パラメータ取得
 		String entYearStr = req.getParameter("entYear");
 		String classNum = req.getParameter("classNum");
 		String subjectCd = req.getParameter("subjectCd");
@@ -41,7 +43,7 @@ public class TestRegistAction extends Action {
 		    yearList.add(i);
 		}
 		
-		// 科目一覧（DBから取得）
+		// 科目一覧
 		SubjectDao subjectDao = new SubjectDao();
 		List<Subject> subjectList = subjectDao.filter(teacher.getSchool());
 		
@@ -51,32 +53,33 @@ public class TestRegistAction extends Action {
 		// 「検索ボタンが押されたか」の判定
 		boolean isSearch = req.getParameter("search") != null;
 		
-		// 「未入力があるか」の判定
-		// 1つでも未入力があれば true
+		// 入力必須チェック（１つでも未入力があればtrue）
 		boolean isEmpty =
 			entYearStr == null || entYearStr.isEmpty() ||
 			classNum == null || classNum.isEmpty() ||
 			subjectCd == null || subjectCd.isEmpty() ||
 			numStr == null || numStr.isEmpty();
 
-		// 入力チェック（バリデーション）
-		// 「検索された」かつ「未入力がある」場合のみエラー
+		// 「検索された」かつ「未入力がある」場合のみtrue
 		// （初回表示ではエラーが出ないようにするための処置）
 		if (isSearch && isEmpty) {
 			
+			// エラー文セット
 			errors.put("search", "入学年度とクラスと科目と回数を選択してください");
 			req.setAttribute("errors", errors);
 			
+			// フォーム情報再送
 			req.setAttribute("class_num_set", classList);
 			req.setAttribute("ent_year_set", yearList);
 			req.setAttribute("subject_list", subjectList);
 			
-			// 入力値の保持
+			// 入力値保持
 			req.setAttribute("entYear", entYearStr);
 			req.setAttribute("classNum", classNum);
 			req.setAttribute("subjectCd", subjectCd);
 			req.setAttribute("num", numStr);
 			
+			// フォワード（差し戻し）
 			req.getRequestDispatcher("test_regist.jsp").forward(req, res);
 			return;
 
@@ -95,18 +98,12 @@ public class TestRegistAction extends Action {
 			num = Integer.parseInt(numStr);
 		}
 		
-		// 検索結果格納用
 		List<Test> testList = null;
-		
-		// DAOによる検索処理
-		
 		// 全て入力されている場合のみ検索を実行（上で未入力を弾いているけど一応分岐）
 		if (!isEmpty) {
-		
-			// DAO生成
+
+			// 検索処理	
 			TestDao dao = new TestDao();
-		
-			// 条件を指定して検索
 			testList = dao.filter(teacher.getSchool(), entYear, classNum, subjectCd, num);
 			
 		}
@@ -116,15 +113,16 @@ public class TestRegistAction extends Action {
 		req.setAttribute("ent_year_set", yearList);
 		req.setAttribute("subject_list", subjectList);
 		
-		// 検索結果
+		// 検索結果をJSPに送る
 		req.setAttribute("testList", testList);
 		
-		// 入力値の保持
+		// 入力値保持
 		req.setAttribute("entYear", entYearStr);
 		req.setAttribute("classNum", classNum);
 		req.setAttribute("subjectCd", subjectCd);
 		req.setAttribute("num", numStr);
 		
+		// フォワード
 		req.getRequestDispatcher("test_regist.jsp").forward(req, res);
 	}
 }

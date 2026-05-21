@@ -23,20 +23,22 @@ public class TestRegistExecuteAction extends Action {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
+		// フォワード
 		HttpSession session = req.getSession();
 		Teacher teacher = (Teacher) session.getAttribute("user");
 
+		// エラーメッセージ格納用Map
 		Map<Integer, String> pointErrors = new HashMap<>();
 
-		// ===== 入力取得 =====
+		// パラメータ取得
 		String subjectCd = req.getParameter("subjectCd");
 		String classNum = req.getParameter("classNum");
 		String numStr = req.getParameter("num");
 		String entYearStr = req.getParameter("entYear");
-
 		String[] studentNos = req.getParameterValues("studentNo");
 		String[] pointStrs = req.getParameterValues("point");
 
+		// 必須入力✓
 		if (studentNos == null || pointStrs == null) {
 			req.getRequestDispatcher("test_regist.jsp").forward(req, res);
 			return;
@@ -46,11 +48,12 @@ public class TestRegistExecuteAction extends Action {
 				? Integer.parseInt(entYearStr)
 				: 0;
 
+		// 型変換
 		int num = Integer.parseInt(numStr);
 
 		boolean hasError = false;
 
-		// ===== バリデーションのみ =====
+		// バリデーションのみ
 		for (int i = 0; i < studentNos.length; i++) {
 
 			int point = Integer.parseInt(pointStrs[i]);
@@ -61,38 +64,35 @@ public class TestRegistExecuteAction extends Action {
 			}
 		}
 
-		// ===== エラー時 =====
+		// エラー時
 		if (hasError) {
 
+			// エラー文セット
 			req.setAttribute("pointErrors", pointErrors);
 
-			// マスタ再取得
+			// クラス一覧取得
 			ClassNumDao cNumDao = new ClassNumDao();
 			List<String> classList = cNumDao.filter(teacher.getSchool());
 
+			// 入学年度リスト取得
 			int currentYear = LocalDate.now().getYear();
 			List<Integer> yearList = new ArrayList<>();
 			for (int i = currentYear - 10; i <= currentYear + 10; i++) {
 				yearList.add(i);
 			}
 
+			// 科目一覧取得
 			SubjectDao subjectDao = new SubjectDao();
 			List<Subject> subjectList = subjectDao.filter(teacher.getSchool());
 
+			// フォーム情報再送
 			req.setAttribute("class_num_set", classList);
 			req.setAttribute("ent_year_set", yearList);
 			req.setAttribute("subject_list", subjectList);
 
 			// 検索結果再表示
 			TestDao dao = new TestDao();
-			List<Test> testList = dao.filter(
-					teacher.getSchool(),
-					entYear,
-					classNum,
-					subjectCd,
-					num
-			);
-
+			List<Test> testList = dao.filter(teacher.getSchool(), entYear, classNum, subjectCd, num);
 			req.setAttribute("testList", testList);
 
 			// 入力保持
@@ -101,13 +101,14 @@ public class TestRegistExecuteAction extends Action {
 			req.setAttribute("subjectCd", subjectCd);
 			req.setAttribute("num", numStr);
 
+			// フォワード（差し戻し）
 			req.getRequestDispatcher("test_regist.jsp").forward(req, res);
 			return;
 		}
 
-		// ===== 正常時：保存 =====
 		TestDao dao = new TestDao();
 
+		// 登録処理
 		for (int i = 0; i < studentNos.length; i++) {
 
 			int point = Integer.parseInt(pointStrs[i]);
@@ -129,6 +130,7 @@ public class TestRegistExecuteAction extends Action {
 			dao.save(test);
 		}
 
+		// フォワード
 		req.getRequestDispatcher("test_regist_done.jsp").forward(req, res);
 	}
 }

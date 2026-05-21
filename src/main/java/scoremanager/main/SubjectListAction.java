@@ -12,22 +12,23 @@ import tool.Action;
 
 public class SubjectListAction extends Action {
 
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-
-        // ローカル変数の宣言 1
-        List<Subject> subjects = null;
-
-        // DBからデータ取得 
-        HttpSession session = req.getSession();
-        Teacher teacher = (Teacher) session.getAttribute("user");
-        SubjectDao subjectDao = new SubjectDao();
-        subjects = subjectDao.filter(teacher.getSchool());
-
-        // レスポンス値をセット 
-        req.setAttribute("subjects", subjects);
-
-        // JSPへフォワード 
-        req.getRequestDispatcher("subject_list.jsp").forward(req, res);
-    }
+	@Override
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+	
+		// セッション取得
+		HttpSession session = req.getSession();
+		Teacher teacher = (Teacher) session.getAttribute("user");
+		
+		// DBからデータ取得 
+		List<Subject> subjects = null;
+		SubjectDao subjectDao = new SubjectDao();
+		subjects = subjectDao.filter(teacher.getSchool());
+		
+		// レスポンス値をセット 
+		req.setAttribute("subjects", subjects);
+		
+		// フォワード 
+		req.getRequestDispatcher("subject_list.jsp").forward(req, res);
+	    
+	}
 }

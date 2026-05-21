@@ -6,7 +6,6 @@ import java.util.List;
 
 import bean.Subject;
 import bean.Teacher;
-import bean.Test;
 import dao.ClassNumDao;
 import dao.SubjectDao;
 import dao.TestDao;
@@ -20,6 +19,7 @@ public class TestDeleteExecuteAction extends Action {
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		
+		// セッション取得
 		HttpSession session = req.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		
@@ -29,21 +29,15 @@ public class TestDeleteExecuteAction extends Action {
 		String numStr = req.getParameter("num");
 		int num = Integer.parseInt(numStr);
 		
-		// Test生成
-		Test test = new Test();
-		
-		// Subject生成
+		// 該当科目コードの科目情報を取得
 		Subject subject = new Subject();
 		subject.setCd(subjectCd);
 		
-		test.setSubject(subject);
-		test.setNo(num);
-		
-		// DAO
+		// 削除処理
 		TestDao tDao = new TestDao();
 		tDao.delete(studentNo, subjectCd, num);
 		
-		// メッセージ添付
+		// 削除完了メッセージ添付
 		req.setAttribute("message_dlt", "成績情報は正常に削除されました。");
 		
 		// クラス一覧取得
@@ -66,7 +60,7 @@ public class TestDeleteExecuteAction extends Action {
 		req.setAttribute("ent_year_set", yearList);
 		req.setAttribute("subject_list", subjectList);
 		
-		// 元画面へ戻す
+		// フォワード
 		req.getRequestDispatcher("test_regist.jsp").forward(req, res);
 	}
 }

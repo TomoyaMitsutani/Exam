@@ -11,6 +11,8 @@ import tool.Action;
 public class SubjectUpdateAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    	
+    	// セッション取得
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
 

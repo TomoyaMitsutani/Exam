@@ -22,25 +22,26 @@ public class TestListSubjectExecuteAction extends Action{
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		
-		HttpSession session = req.getSession(); // セッション
+		// セッション取得
+		HttpSession session = req.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		
 		String entYearStr = req.getParameter("f1");
 		String classNum = req.getParameter("f2");
 		String subjectStr= req.getParameter("f3");
 		
-		// エラー
+		// エラーメッセージ格納用Map
 		Map<String, String> errors = new HashMap<>();
 
-		// 未入力チェック
+		// 入力必須チェック（どれか１項目でも未入力ならTrue）
 		if (
 			entYearStr == null || entYearStr.equals("0") ||
 			classNum == null || classNum.equals("0") ||
 			subjectStr == null || subjectStr.equals("0")
 		) {
 
+			// エラー文セット
 			errors.put("error_1", "入学年度とクラスと科目を選択してください");
-
 			req.setAttribute("errors", errors);
 
 			// クラス一覧
@@ -50,7 +51,6 @@ public class TestListSubjectExecuteAction extends Action{
 			// 入学年度
 			int currentYear = LocalDate.now().getYear();
 			List<Integer> yearList = new ArrayList<>();
-
 			for (int i = currentYear - 10; i <= currentYear + 10; i++) {
 				yearList.add(i);
 			}
@@ -69,21 +69,18 @@ public class TestListSubjectExecuteAction extends Action{
 			req.setAttribute("f2", classNum);
 			req.setAttribute("f3", subjectStr);
 
-			// JSPへ戻す
+			// フォワード（差し戻し）
 			req.getRequestDispatcher("test_list.jsp").forward(req, res);
 
 			return;
 		}
 		
+		// 型変換
 		int entYear = Integer.parseInt(entYearStr);	
 		
-		// Subject subject = new Subject();
-		
+		// 検索処理
 		List<TestListSubject> testListSubject = null;
-		
 		TestListSubjectDao dao = new TestListSubjectDao();
-
-		// 検索
 		testListSubject = dao.filter(entYear, classNum, subjectStr, teacher.getSchool());
 
 		// 検索結果をJSPへ送る
@@ -104,15 +101,17 @@ public class TestListSubjectExecuteAction extends Action{
 		SubjectDao subjectDao = new SubjectDao();
 		List<Subject> subjectList = subjectDao.filter(teacher.getSchool());
 		
-	    // 入力値保持
+		// フォーム情報再送
 		req.setAttribute("class_num_set", classList);
 	    req.setAttribute("ent_year_set", yearList);
 	    req.setAttribute("subject_set", subjectList);
+		
+	    // 入力値保持
 		req.setAttribute("f1", entYearStr);
 	    req.setAttribute("f2", classNum);
 	    req.setAttribute("f3", subjectStr);
 	    
-	    // 画面表示
+	    // フォワード
 		req.getRequestDispatcher("test_list.jsp").forward(req, res);
 		
 	}	

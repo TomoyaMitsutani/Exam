@@ -15,6 +15,8 @@ import tool.Action;
 public class SubjectCreateExecuteAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    	
+    	// セッション
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
         School school = teacher.getSchool();
@@ -37,9 +39,13 @@ public class SubjectCreateExecuteAction extends Action {
         	errors.put("subject_cd_lengthover", "科目コードは3文字で入力してください");
         }
 
-        // エラー発生時の差し返し
+        // エラー文が存在するならTrue
         if (!errors.isEmpty()) {
+        	
+        	// エラー文セット
             req.setAttribute("errors", errors);
+            
+            // フォワード（差し戻し）
             req.getRequestDispatcher("subject_create.jsp").forward(req, res);
             return;
         }
@@ -53,6 +59,7 @@ public class SubjectCreateExecuteAction extends Action {
         // 登録
         subjectDao.save(subject);
 
+        // フォワード
         req.getRequestDispatcher("subject_create_done.jsp").forward(req, res);
     }
 }

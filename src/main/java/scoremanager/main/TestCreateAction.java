@@ -33,7 +33,7 @@ public class TestCreateAction extends Action {
 		req.setAttribute("student_list", studentList);
 		req.setAttribute("subject_list", subjectList);
 
-		// JSP表示
+		// フォワード
 		req.getRequestDispatcher("test_create.jsp").forward(req, res);
 
 	}

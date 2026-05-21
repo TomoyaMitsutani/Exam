@@ -12,6 +12,8 @@ import tool.Action;
 public class SubjectDeleteExecuteAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    	
+    	// セッション取得
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
         School school = teacher.getSchool();
@@ -24,10 +26,11 @@ public class SubjectDeleteExecuteAction extends Action {
         subject.setCd(cd);
         subject.setSchool(school);
 
-        // 削除
+        // 削除処理
         SubjectDao subjectDao = new SubjectDao();
         subjectDao.delete(subject);
 
+        // フォワード
         req.getRequestDispatcher("subject_delete_done.jsp").forward(req, res);
     }
 }
