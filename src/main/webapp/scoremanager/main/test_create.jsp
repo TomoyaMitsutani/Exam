@@ -72,9 +72,7 @@
 								<c:if test="${subject.cd == subjectCd}">
 									selected
 								</c:if>>
-				
 								${subject.name}
-				
 							</option>
 				
 						</c:forEach>
@@ -84,6 +82,7 @@
 				
 				<!-- 回数 -->
 				<div class="col-2">
+				
 					<label class="form-label">
 						回数
 					</label>
@@ -115,21 +114,14 @@
 					<label class="form-label">
 						得点
 					</label>
-				
-					<input type="number"
-						   class="form-control"
-						   name="point"
-						   value="${point}"
-						   min="0"
-						   max="100"
-						   required>
+					<input type="number" class="form-control" name="point"
+						   value="${point}"  min="0" max="100" required>
 				</div>
 
 					<!-- 登録ボタン -->
 					<div class="col-2 text-center align-self-end">
 
-						<button type="submit"
-								class="btn btn-secondary">
+						<button type="submit" class="btn btn-secondary">
 							登録
 						</button>
 
@@ -137,13 +129,9 @@
 
 					<!-- エラーメッセージ -->
 					<c:if test="${errors != null}">
-
 						<div class="col-12 text-warning">
-
 							${errors.create}
-
 						</div>
-
 					</c:if>
 
 				</div>
@@ -151,6 +139,10 @@
 			</form>
 
 		</section>
+		
+		<div class="my-2">
+			<a href="TestRegist.action">戻る</a>
+		</div>
 
 	</c:param>
 

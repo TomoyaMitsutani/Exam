@@ -53,6 +53,9 @@ public class TestRegistAction extends Action {
 		// 「検索ボタンが押されたか」の判定
 		boolean isSearch = req.getParameter("search") != null;
 		
+		// 「cancelボタンが押されたか」の判定
+		boolean isCancel = req.getParameter("cancel") != null;
+		
 		// 入力必須チェック（１つでも未入力があればtrue）
 		boolean isEmpty =
 			entYearStr == null || entYearStr.isEmpty() ||
@@ -60,9 +63,9 @@ public class TestRegistAction extends Action {
 			subjectCd == null || subjectCd.isEmpty() ||
 			numStr == null || numStr.isEmpty();
 
-		// 「検索された」かつ「未入力がある」場合のみtrue
+		// 「検索された」かつ「削除キャンセルされていない」かつ「未入力がある」場合のみtrue
 		// （初回表示ではエラーが出ないようにするための処置）
-		if (isSearch && isEmpty) {
+		if (isSearch && !isCancel && isEmpty) {
 			
 			// エラー文セット
 			errors.put("search", "入学年度とクラスと科目と回数を選択してください");

@@ -83,7 +83,7 @@
 							削除
 						</button>
 
-						<a href="TestList.action?entYear=${entYear}&classNum=${classNum}&subjectCd=${subjectCd}&num=${num}&search=true"
+						<a href="TestRegist.action?entYear=${entYear}&classNum=${classNum}&subjectCd=${subjectCd}&num=${num}&search=true&cancel=true"
 						   class="btn btn-secondary">
 							キャンセル
 						</a>
