@@ -35,10 +35,28 @@ public class TestRegistExecuteAction extends Action {
 		String classNum = req.getParameter("classNum");
 		String numStr = req.getParameter("num");
 		String entYearStr = req.getParameter("entYear");
+		
 		String[] studentNos = req.getParameterValues("studentNo");
 		String[] pointStrs = req.getParameterValues("point");
 
-		// 必須入力✓
+		System.out.println("studentNos.length = " + studentNos.length);
+		System.out.println("pointStrs.length = " + pointStrs.length);
+		
+		for (int i = 0; i < pointStrs.length; i++) {
+
+			System.out.println(
+				"pointStrs[" + i + "] = " + pointStrs[i]
+			);
+		}
+		
+		for (int i = 0; i < studentNos.length; i++) {
+
+			System.out.println(
+				"studentNos[" + i + "] = " + studentNos[i]
+			);
+		}
+		
+		// 必須入力チェック
 		if (studentNos == null || pointStrs == null) {
 			req.getRequestDispatcher("test_regist.jsp").forward(req, res);
 			return;

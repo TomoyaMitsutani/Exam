@@ -290,38 +290,16 @@
 								<!-- 削除 -->
 								<td>
 
-									<form action="TestDelete.action"
-										  method="post">
-
-										<input type="hidden"
-											   name="studentNo"
-											   value="${test.student.no}">
-
-										<input type="hidden"
-											   name="subjectCd"
-											   value="${subjectCd}">
-
-										<input type="hidden"
-											   name="num"
-											   value="${num}">
-
-										<input type="hidden"
-											   name="entYear"
-											   value="${entYear}">
-
-										<input type="hidden"
-											   name="classNum"
-											   value="${classNum}">
-
-										<button type="submit"
-												class="btn btn-danger btn-sm">
-
-											削除
-
-										</button>
-
-									</form>
-
+									<button type="submit"
+											formaction="TestDelete.action"
+											name="deleteStudentNo"
+											value="${test.student.no}"
+											class="btn btn-danger btn-sm">
+									
+										削除
+									
+									</button>
+								
 								</td>
 
 							</tr>

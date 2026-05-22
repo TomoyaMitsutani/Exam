@@ -18,7 +18,7 @@ public class TestDeleteAction extends Action {
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		
 		// パラメータ取得
-		String studentNo = req.getParameter("studentNo");
+		String studentNo = req.getParameter("deleteStudentNo");
 		String subjectCd = req.getParameter("subjectCd");
 		int num = Integer.parseInt(req.getParameter("num"));
 
